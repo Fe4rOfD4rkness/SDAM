@@ -1,33 +1,32 @@
-const globals = require("globals");
-const pluginJs = require("@eslint/js");
+import prettier from 'eslint-plugin-prettier';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import js from '@eslint/js';
+import { FlatCompat } from '@eslint/eslintrc';
 
-module.exports = {
-  // Define environments to include browser and Node.js globals
-  env: {
-    browser: true,
-    node: true,
-    es2021: true,
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
+});
+
+export default [
+  ...compat.extends('airbnb', 'prettier', 'plugin:node/recommended'),
+  {
+    plugins: {
+      prettier,
+    },
+
+    rules: {
+      'prettier/prettier': 'error',
+      'no-unused-vars': 'warn',
+      'no-console': 'off',
+      'func-names': 'off',
+      'no-process-exit': 'off',
+      'object-shorthand': 'off',
+      'class-methods-use-this': 'off',
+    },
   },
-
-  // Specify the parser options
-  parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: "module",
-  },
-
-  // Extend Airbnb's ESLint configuration
-  extends: ["airbnb", "airbnb/hooks", "plugin:@eslint/recommended"],
-
-  // Define additional global variables
-  globals: {
-    ...globals.browser,
-    ...globals.node,
-  },
-
-  // Custom rules (if any)
-  rules: {
-    "prettier/prettier": "error",
-    "no-console": "off",
-    // You can add or override rules here
-  },
-};
+];
