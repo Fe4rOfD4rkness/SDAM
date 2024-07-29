@@ -134,6 +134,7 @@ config.json
 
 # ignore the db
 l1000.db
+database.sql
 
 # ignore the jupyter notebook
 load_table.ipynb
