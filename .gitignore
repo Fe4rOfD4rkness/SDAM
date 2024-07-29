@@ -131,3 +131,9 @@ dist
 
 # ignore config.js
 config.json
+
+# ignore the db
+l1000.db
+
+# ignore the jupyter notebook
+load_table.ipynb
